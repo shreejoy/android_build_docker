@@ -1,0 +1,24 @@
+image: docker:stable
+
+before_script:
+  - apk add bash coreutils git
+
+build:
+  stage: build
+  services:
+    - docker:dind
+  script:
+  - |-
+    echo "Cloning repository..."
+    rm -rf .git
+    git clone https://github.com/PixelExperience/official_devices
+    if [ -n "$GIT_PR_NUMBER" ]; then
+        git -C official_devices fetch origin "pull/$GIT_PR_NUMBER/head"
+        git -C official_devices checkout FETCH_HEAD
+    fi
+    docker build --no-cache -t official_devices_ci:latest ./
+    docker run -e TELEGRAM_TOKEN=${TELEGRAM_TOKEN} -e GH_PERSONAL_TOKEN=${GH_PERSONAL_TOKEN} -e GIT_PR_NUMBER=${GIT_PR_NUMBER} -e BUILD_URL=${CI_JOB_URL} official_devices_ci:latest
+  only:
+    - triggers
+    - web
+    - api
