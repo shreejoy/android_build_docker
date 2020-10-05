@@ -220,10 +220,10 @@ def format_json():
     maintainers_json = open('team/maintainers.json', 'w')
 
     # Write dump's
-    devices_json.write(devices)
-    lead_json.write(lead)
-    core_json.write(core)
-    maintainers_json.write(maintainers)
+    devices_json.write(devices + '\n')
+    lead_json.write(lead + '\n')
+    core_json.write(core + '\n')
+    maintainers_json.write(maintainers + '\n')
 
     # Close JSON's
     devices_json.close()
