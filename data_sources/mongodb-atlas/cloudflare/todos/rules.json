@@ -1,0 +1,18 @@
+{
+    "collection": "todos",
+    "database": "cloudflare",
+    "roles": [
+        {
+            "name": "owner",
+            "apply_when": {
+                "owner": "%%user.id"
+            },
+            "read": true,
+            "write": true,
+            "insert": true,
+            "delete": true,
+            "search": true,
+            "additional_fields": {}
+        }
+    ]
+}
